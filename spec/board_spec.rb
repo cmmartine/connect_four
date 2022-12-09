@@ -117,4 +117,24 @@ describe Board do
       end
     end
   end
+
+  describe '#populate_columns_array' do
+
+    context 'makes a subarray of indexes for each column' do
+
+      subject(:test_game) { described_class.new }
+
+      it 'inserts the first column into @columns' do
+        column = test_game.instance_variable_get(:@columns)
+        test_game.populate_columns_array
+        expect(column[0]).to eq([0, 7, 14, 21, 28, 35])
+      end
+
+      it 'inserts the last column into @columns' do
+        column = test_game.instance_variable_get(:@columns)
+        test_game.populate_columns_array
+        expect(column[6]).to eq([6, 13, 20, 27, 34, 41])
+      end
+    end
+  end
 end

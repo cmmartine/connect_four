@@ -2,7 +2,7 @@ require_relative '../lib/vertex'
 
 class Board
   attr_accessor :board
-  attr_reader :vertices
+  attr_reader :vertices, :columns
 
   def initialize
     @board = [
@@ -15,11 +15,13 @@ class Board
       ['f ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', "\n"]
     ]
     @vertices = []
+    @columns = []
   end
 
   def create_board
     create_vertexes
     populate_neighbors
+    populate_columns_array
   end
 
   def create_vertexes
@@ -87,7 +89,18 @@ class Board
     end
     neighbors
   end
+
+  def populate_columns_array
+    # Indexes in vertices for each column, left is bottom spot, right is top spot
+    @columns << [35, 28, 21, 14, 7, 0] # 1
+    @columns << [36, 29, 22, 15, 8, 1] # 2
+    @columns << [37, 30, 23, 16, 9, 2] # 3
+    @columns << [38, 31, 24, 17, 10, 3]# 4
+    @columns << [39, 32, 25, 18, 11, 4] # 5
+    @columns << [40, 33, 26, 19, 12, 5] # 6
+    @columns << [41, 34, 27, 20, 13, 6] # 7
+  end
 end
 
-board = Board.new
-board.create_board
+# board = Board.new
+# board.create_board
