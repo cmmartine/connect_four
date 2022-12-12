@@ -48,4 +48,26 @@ describe Game do
       end
     end
   end
+
+  describe '#change_players' do
+
+    subject(:test_game) { described_class.new }
+
+    context 'when current_player is player_one' do
+
+      it 'changes current_player to player_two' do
+        test_game.change_players
+        expect(test_game.instance_variable_get(:@current_player)).to eq('➁')
+      end
+    end
+
+    context 'when current_player is player_two' do
+
+      it 'changes current_player to player_one' do
+        test_game.instance_variable_set(:@current_player, '➁')
+        test_game.change_players
+        expect(test_game.instance_variable_get(:@current_player)).to eq('➊')
+      end
+    end
+  end
 end

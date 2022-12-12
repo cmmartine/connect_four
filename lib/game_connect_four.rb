@@ -39,6 +39,10 @@ class Game
       player_choice
     end
   end
+
+  def change_players
+    @current_player == @player_one ? @current_player = @player_two : @current_player = @player_one
+  end
 end
 
 # game = Game.new
