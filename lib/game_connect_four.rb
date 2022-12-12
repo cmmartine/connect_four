@@ -3,10 +3,10 @@ require_relative '../lib/vertex'
 
 class Game
 
-  def initialize
+  def initialize(game = Board.new)
     @player_one = '➊'
     @player_two = '➁'
-    @game = Board.new
+    @game = game
     @current_player = @player_one
   end
 
@@ -14,19 +14,17 @@ class Game
     @game.create_board
   end
 
-  def insert_piece
-    choice = player_choice
-    column = @game.columns[choice - 1]
+  def insert_piece(choice = player_choice, column = @game.columns[choice - 1])
 
-    unless @game.vertices[column.last].occupied_color != nil
+    unless @game.vertices[column.last].occupied_color != 'open'
       column.each do |spot|
-        if @game.vertices[spot].occupied_color.nil?
+        if @game.vertices[spot].occupied_color == 'open'
           @game.vertices[spot].occupied_color = @current_player
           break
         end
       end
-    else 
-      puts "Please choose a different column!"
+    else
+      puts 'Please choose a different column!'
       insert_piece
     end
   end
@@ -45,4 +43,5 @@ end
 
 # game = Game.new
 # game.start_game
+# game.insert_piece
 # game.insert_piece

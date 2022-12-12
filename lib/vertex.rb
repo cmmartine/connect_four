@@ -4,7 +4,7 @@ class Vertex
   def initialize(name = nil, location = nil)
     @name = name
     @location = location
-    @occupied_color = nil
+    @occupied_color = 'open'
     @neighbors = []
   end
 end

@@ -4,7 +4,7 @@ class Board
   attr_accessor :board
   attr_reader :vertices, :columns
 
-  def initialize
+  def initialize(vertices = [], columns = [])
     @board = [
       ['  ', '  1', '  2', '  3', '  4', '  5', '  6', '  7', "\n"],
       ['a ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', "\n"],
@@ -14,8 +14,8 @@ class Board
       ['e ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', "\n"],
       ['f ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', '|_ ', "\n"]
     ]
-    @vertices = []
-    @columns = []
+    @vertices = vertices
+    @columns = columns
   end
 
   def create_board
@@ -95,7 +95,7 @@ class Board
     @columns << [35, 28, 21, 14, 7, 0] # 1
     @columns << [36, 29, 22, 15, 8, 1] # 2
     @columns << [37, 30, 23, 16, 9, 2] # 3
-    @columns << [38, 31, 24, 17, 10, 3]# 4
+    @columns << [38, 31, 24, 17, 10, 3] # 4
     @columns << [39, 32, 25, 18, 11, 4] # 5
     @columns << [40, 33, 26, 19, 12, 5] # 6
     @columns << [41, 34, 27, 20, 13, 6] # 7
