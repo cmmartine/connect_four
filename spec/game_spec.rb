@@ -120,4 +120,39 @@ describe Game do
     end
 
   end
+
+  describe '#vertical_win_status' do
+
+    context 'when four vertical positions are occupied by same color' do
+      
+      subject(:test_game) { described_class.new(test_board) }
+      let(:test_board) { Board.new([v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, c5, v, v, v, v, v, v, d5, v, v, v, v, v, v, e5, v, v, v, v, v, v, f5, v, v]) }
+      let(:v) { Vertex.new }
+      let(:f5) { Vertex.new('f5', [6, 5], '➊') }
+      let(:e5) { Vertex.new('e5', [5, 5], '➊') }
+      let(:d5) { Vertex.new('d5', [4, 5], '➊') }
+      let(:c5) { Vertex.new('c5', [3, 5], '➊') }
+
+      it 'changes win status to current_player' do
+        test_game.vertical_win_status
+        expect(test_game.instance_variable_get(:@win_status)).to eq('➊')
+      end
+    end
+
+    context 'when four vertical positions are occupied but not by same color' do
+      
+      subject(:test_game) { described_class.new(test_board) }
+      let(:test_board) { Board.new([v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, c5, v, v, v, v, v, v, d5, v, v, v, v, v, v, e5, v, v, v, v, v, v, f5, v, v]) }
+      let(:v) { Vertex.new }
+      let(:f5) { Vertex.new('f5', [6, 5], '➊') }
+      let(:e5) { Vertex.new('e5', [5, 5], '➊') }
+      let(:d5) { Vertex.new('d5', [4, 5], '➁') }
+      let(:c5) { Vertex.new('c5', [3, 5], '➊') }
+
+      it 'does not change win_status' do
+        test_game.vertical_win_status
+        expect(test_game.instance_variable_get(:@win_status)).not_to eq('➊')
+      end
+    end
+  end
 end

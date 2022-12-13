@@ -56,8 +56,24 @@ class Game
         elsif reverse_vert[i + 1].occupied_color == spot.occupied_color && reverse_vert[i + 2].occupied_color == spot.occupied_color && reverse_vert[i + 3].occupied_color == spot.occupied_color
           @win_status = @current_player
         end
-        i += 1
       end
+      i += 1
+    end
+  end
+
+  def vertical_win_status
+    i = 0
+    vert = @game.vertices
+    @game.vertices.each do |spot|
+      if spot.occupied_color != 'open'
+        if spot.name.start_with?('d', 'e', 'f')
+          i += 1
+          next
+        elsif vert[i + 7].occupied_color == spot.occupied_color && vert[i + 14].occupied_color == spot.occupied_color && vert[i + 21].occupied_color == spot.occupied_color
+          @win_status = @current_player
+        end
+      end
+      i += 1
     end
   end
 end
