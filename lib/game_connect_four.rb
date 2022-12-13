@@ -8,6 +8,7 @@ class Game
     @player_two = '➁'
     @game = game
     @current_player = @player_one
+    @win_status = nil
   end
 
   def start_game
@@ -42,6 +43,22 @@ class Game
 
   def change_players
     @current_player == @player_one ? @current_player = @player_two : @current_player = @player_one
+  end
+
+  def horizontal_win_status
+    i = 0
+    reverse_vert = @game.vertices.reverse
+    @game.vertices.reverse.each do |spot|
+      if spot.occupied_color != 'open'
+        if spot.name.end_with?('1', '2', '3')
+          i += 1
+          next
+        elsif reverse_vert[i + 1].occupied_color == spot.occupied_color && reverse_vert[i + 2].occupied_color == spot.occupied_color && reverse_vert[i + 3].occupied_color == spot.occupied_color
+          @win_status = @current_player
+        end
+        i += 1
+      end
+    end
   end
 end
 

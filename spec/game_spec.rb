@@ -70,4 +70,54 @@ describe Game do
       end
     end
   end
+
+  describe '#horizontal_win_status' do
+
+    context 'when four horizontal positions which are neighbors have same occupied color' do
+      subject(:test_game) { described_class.new(test_board) }
+      let(:test_board) { Board.new([f1, f2, f3, f4]) }
+      let(:f1) { Vertex.new('f1', [6, 1], '➊') }
+      let(:f2) { Vertex.new('f2', [6, 2], '➊') }
+      let(:f3) { Vertex.new('f3', [6, 3], '➊') }
+      let(:f4) { Vertex.new('f4', [6, 4], '➊') }
+
+      it 'changes win_status to the current player' do
+        expect { test_game.horizontal_win_status }.to change { test_game.instance_variable_get(:@win_status) }.from(nil).to('➊')
+      end
+
+    end
+
+    context 'when three horizontal positions which are neighbors have same occupied color' do
+
+      subject(:test_game) { described_class.new(test_board) }
+      let(:test_board) { Board.new([f1, f2, f3, f4]) }
+      let(:f1) { Vertex.new('f1', [6, 1], '➊') }
+      let(:f2) { Vertex.new('f2', [6, 2], '➊') }
+      let(:f3) { Vertex.new('f3', [6, 3], '➊') }
+      let(:f4) { Vertex.new('f4', [6, 4], '➁') }
+
+      it 'returns without changing win_status' do
+        test_game.horizontal_win_status
+        expect(test_game.instance_variable_get(:@win_status)).not_to be('➊')
+      end
+
+    end
+
+    context "when three horizontal positions which are neighbors at the end of a line, and the position next in the array ex: 'f1, f2, f3, e7' contain same occupied color"  do
+
+      subject(:test_game) { described_class.new(test_board) }
+      let(:test_board) { Board.new([f1, f2, f3, e7]) }
+      let(:f1) { Vertex.new('f1', [6, 1], '➊') }
+      let(:f2) { Vertex.new('f2', [6, 2], '➊') }
+      let(:f3) { Vertex.new('f3', [6, 3], '➊') }
+      let(:e7) { Vertex.new('e7', [5, 7], '➊') }
+
+      it 'returns without changing win_status' do
+        test_game.horizontal_win_status
+        expect(test_game.instance_variable_get(:@win_status)).not_to be('➊')
+      end
+
+    end
+
+  end
 end
