@@ -126,12 +126,12 @@ describe Game do
     context 'when four vertical positions are occupied by same color' do
       
       subject(:test_game) { described_class.new(test_board) }
-      let(:test_board) { Board.new([v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, c5, v, v, v, v, v, v, d5, v, v, v, v, v, v, e5, v, v, v, v, v, v, f5, v, v]) }
+      let(:test_board) { Board.new([v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, c4, v, v, v, v, v, v, d4, v, v, v, v, v, v, e4, v, v, v, v, v, v, f4, v, v, v]) }
       let(:v) { Vertex.new }
-      let(:f5) { Vertex.new('f5', [6, 5], '➊') }
-      let(:e5) { Vertex.new('e5', [5, 5], '➊') }
-      let(:d5) { Vertex.new('d5', [4, 5], '➊') }
-      let(:c5) { Vertex.new('c5', [3, 5], '➊') }
+      let(:f4) { Vertex.new('f4', [6, 4], '➊') }
+      let(:e4) { Vertex.new('e4', [5, 4], '➊') }
+      let(:d4) { Vertex.new('d4', [4, 4], '➊') }
+      let(:c4) { Vertex.new('c4', [3, 4], '➊') }
 
       it 'changes win status to current_player' do
         test_game.vertical_win_status
@@ -142,15 +142,83 @@ describe Game do
     context 'when four vertical positions are occupied but not by same color' do
       
       subject(:test_game) { described_class.new(test_board) }
-      let(:test_board) { Board.new([v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, c5, v, v, v, v, v, v, d5, v, v, v, v, v, v, e5, v, v, v, v, v, v, f5, v, v]) }
+      let(:test_board) { Board.new([v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, c4, v, v, v, v, v, v, d4, v, v, v, v, v, v, e4, v, v, v, v, v, v, f4, v, v, v]) }
       let(:v) { Vertex.new }
-      let(:f5) { Vertex.new('f5', [6, 5], '➊') }
-      let(:e5) { Vertex.new('e5', [5, 5], '➊') }
-      let(:d5) { Vertex.new('d5', [4, 5], '➁') }
-      let(:c5) { Vertex.new('c5', [3, 5], '➊') }
+      let(:f4) { Vertex.new('f4', [6, 4], '➊') }
+      let(:e4) { Vertex.new('e4', [5, 4], '➊') }
+      let(:d4) { Vertex.new('d4', [4, 4], '➁') }
+      let(:c4) { Vertex.new('c4', [3, 4], '➊') }
 
       it 'does not change win_status' do
         test_game.vertical_win_status
+        expect(test_game.instance_variable_get(:@win_status)).not_to eq('➊')
+      end
+    end
+  end
+  
+  describe '#top_left_bot_right_diagonal_win' do
+
+    context 'when four diagonal positions are occupied by same color' do
+      subject(:test_game) { described_class.new(test_board) }
+      let(:test_board) { Board.new([v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, c3, v, v, v, v, v, v, v, d4, v, v, v, v, v, v, v, e5, v, v, v, v, v, v, v, f6, v]) }
+      let(:v) { Vertex.new }
+      let(:c3) { Vertex.new('c3', [3, 3], '➊') }
+      let(:d4) { Vertex.new('d4', [4, 4], '➊') }
+      let(:e5) { Vertex.new('e5', [5, 5], '➊') }
+      let(:f6) { Vertex.new('f6', [6, 6], '➊') }
+
+      it 'change win_status to current_player' do
+        test_game.top_left_bot_right_diagonal_win
+        expect(test_game.instance_variable_get(:@win_status)).to eq('➊')
+      end
+    end
+
+    context 'when four diagonals are occupied but not by same color' do
+
+      subject(:test_game) { described_class.new(test_board) }
+      let(:test_board) { Board.new([v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, c3, v, v, v, v, v, v, v, d4, v, v, v, v, v, v, v, e5, v, v, v, v, v, v, v, f6, v]) }
+      let(:v) { Vertex.new }
+      let(:c3) { Vertex.new('c3', [3, 3], '➊') }
+      let(:d4) { Vertex.new('d4', [4, 4], '➊') }
+      let(:e5) { Vertex.new('e5', [5, 5], '➁') }
+      let(:f6) { Vertex.new('f6', [6, 6], '➊') }
+
+      it 'does not change win_status to current_player' do
+        test_game.top_left_bot_right_diagonal_win
+        expect(test_game.instance_variable_get(:@win_status)).not_to eq('➊')
+      end
+    end
+  end
+
+  describe '#top_right_bot_left_diagonal_win' do
+
+    context 'when four diagonal positions are occupied by same color' do
+      subject(:test_game) { described_class.new(test_board) }
+      let(:test_board) { Board.new([v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, c4, v, v, v, v, v, d3, v, v, v, v, v, e2, v, v, v, v, v, f1, v, v, v, v, v, v]) }
+      let(:v) { Vertex.new }
+      let(:c4) { Vertex.new('c4', [3, 4], '➊') }
+      let(:d3) { Vertex.new('d3', [4, 3], '➊') }
+      let(:e2) { Vertex.new('e2', [5, 2], '➊') }
+      let(:f1) { Vertex.new('f1', [6, 1], '➊') }
+
+      it 'change win_status to current_player' do
+        test_game.top_right_bot_left_diagonal_win
+        expect(test_game.instance_variable_get(:@win_status)).to eq('➊')
+      end
+    end
+
+    context 'when four diagonals are occupied but not by same color' do
+
+      subject(:test_game) { described_class.new(test_board) }
+      let(:test_board) { Board.new([v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, v, c4, v, v, v, v, v, d3, v, v, v, v, v, e2, v, v, v, v, v, f1, v, v, v, v, v, v]) }
+      let(:v) { Vertex.new }
+      let(:c4) { Vertex.new('c4', [3, 4], '➊') }
+      let(:d3) { Vertex.new('d3', [4, 3], '➁') }
+      let(:e2) { Vertex.new('e2', [5, 2], '➊') }
+      let(:f1) { Vertex.new('f1', [6, 1], '➊') }
+
+      it 'does not change win_status to current_player' do
+        test_game.top_right_bot_left_diagonal_win
         expect(test_game.instance_variable_get(:@win_status)).not_to eq('➊')
       end
     end
