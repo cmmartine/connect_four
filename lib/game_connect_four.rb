@@ -1,11 +1,12 @@
 require_relative '../lib/board'
 require_relative '../lib/vertex'
+require 'colorize'
 
 class Game
 
   def initialize(game = Board.new)
-    @player_one = '➊'
-    @player_two = '➁'
+    @player_one = '⚫'.blue
+    @player_two = '⚫'.red
     @game = game
     @current_player = @player_one
     @win_status = nil
@@ -48,9 +49,9 @@ class Game
         if @game.vertices[spot].occupied_color == 'open'
           @game.vertices[spot].occupied_color = @current_player
           if end_spots.include?(spot)
-            @game.board[spot] = "|#{@current_player} \n"
+            @game.board[spot] = "|#{@current_player}\n"
           else
-            @game.board[spot] = "|#{@current_player} "
+            @game.board[spot] = "|#{@current_player}"
           end
           break
         end
